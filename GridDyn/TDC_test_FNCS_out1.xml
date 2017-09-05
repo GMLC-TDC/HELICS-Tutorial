@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--xml file to test matdyn execution-->
+<griddyn name="TransmissionSim" version="0.0.1">
+
+<import file="case5_mod.m"/>
+<library>
+<model name="mod4">
+            <type>fourthOrder</type>
+            <D>0.040</D>
+            <H>5</H>
+            <Tdop>8</Tdop>
+            <Tqop>1</Tqop>
+            <Xd>1.050</Xd>
+            <Xdp>0.350</Xdp>
+            <Xq>0.850</Xq>
+            <Xqp>0.350</Xqp>
+         </model>
+         <governor name="govref">
+            <type>basic</type>
+            <K>16.667</K>
+            <T1>0.100</T1>
+            <T2>0.150</T2>
+            <T3>0.050</T3>
+         </governor>
+</library>
+<bus index=0>
+<dyntype>vfix</dyntype>
+<gen index=0 rename="ALTA">
+<flag>no_control</flag>
+<pmin>0</pmin>
+<model ref="mod4"/>    
+</gen>
+<gen index=1 rename="PARKCITY">
+<flags>isochronous</flags>
+<pmax unit=MW> 270</pmax>
+<pmin>0</pmin>
+<model ref="mod4"/>
+ <governor ref="govref"/>       
+</gen>
+</bus>
+
+<bus index=1>
+<dyntype>vfix</dyntype>
+<load index=0>
+<retype> ramp</retype>
+<qratio>0.254</qratio>
+</load>
+</bus>
+
+<bus index=2>
+<dyntype>vfix</dyntype>
+<load index=0>
+<retype> ramp</retype>
+<qratio>0.297</qratio>
+</load>
+<gen index=0 rename="SOLITUDE">
+<pmin>0</pmin>
+ <model ref="mod4"/>  
+</gen>
+</bus>
+
+<bus index=3>
+<dyntype>vfix</dyntype>
+<load index=0>
+<retype> ramp</retype>
+<qratio>0.3044</qratio>
+</load>
+<gen index=0 rename="SUNDANCE">
+<pmin>0</pmin>
+ <model ref="mod4"/>  
+<!--<model type="classical"></model>
+<gov type="tgov1"/>
+<exciter type="type1"/>-->
+</gen>
+</bus>
+
+<bus index=4>
+<dyntype>vfix</dyntype>
+<voltage>1.02</voltage>
+<gen index=0 rename="BRIGHTON">
+
+<pmin>0</pmin>
+<model ref="mod4"/>
+ <governor ref="govref"/>       
+</gen>
+</bus>
+
+<player type=interpolated>
+<target>BUS#1::load#0</target>
+<field>p</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>loadData.dat</file>
+<column>0</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#2::load#0</target>
+<field>p</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>loadData.dat</file>
+<column>1</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#3::load#0</target>
+<field>p</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>loadData.dat</file>
+<column>2</column>
+</player>
+
+
+<player type=interpolated>
+<target>BUS#0::ALTA</target>
+<field>pset</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>genData.dat</file>
+<column>0</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#0::PARKCITY</target>
+<field>pset</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>genData.dat</file>
+<column>1</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#2::SOLITUDE</target>
+<field>pset</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>genData.dat</file>
+<column>2</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#3::SUNDANCE</target>
+<field>pset</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>genData.dat</file>
+<column>3</column>
+</player>
+
+<player type=interpolated>
+<target>BUS#4::BRIGHTON</target>
+<field>pset</field>
+<slopefield>dpdt</slopefield>
+<units>MW</units>
+<file>genData.dat</file>
+<column>4</column>
+</player>
+
+<recorder period=1>
+<autosave>2000</autosave>
+   <file>tdc_output.csv</file>
+   <field>bus#0:voltage</field>
+   <field>bus#1:voltage</field>
+   <field>bus#2:voltage</field>
+   <field>bus#3:voltage</field>
+   <field>bus#4:voltage</field>
+   <field>bus#0:angle(deg)</field>
+   <field>bus#1:angle(deg)</field>
+   <field>bus#2:angle(deg)</field>
+   <field>bus#3:angle(deg)</field>
+   <field>bus#4:angle(deg)</field>
+   <field>bus#0::ALTA:p(MW)</field>
+   <field>bus#0::PARKCITY:p(MW)</field>
+   <field>bus#2::SOLITUDE:p(MW)</field>
+   <field>bus#3::SUNDANCE:p(MW)</field>
+   <field>bus#4::BRIGHTON:p(MW)</field>
+   <field>bus#1:load(MW)</field>
+   <field>bus#2:load(MW)</field>
+   <field>bus#3:load(MW)</field>
+   <field>bus#0::PARKCITY:freq</field>
+   <field>bus#4::BRIGHTON:freq</field>
+   </recorder>
+   
+   <collector type="fncs" period=6>
+   <field>bus#0::ALTA:p(MW) as GenOutput/Alta</field>
+   <field>bus#0::PARKCITY:p(MW) as GenOutput/ParkCity</field>
+   <field>bus#2::SOLITUDE:p(MW) as GenOutput/Solitude</field>
+   <field>bus#3::SUNDANCE:p(MW) as GenOutput/Sundance</field>
+   <field>bus#4::BRIGHTON:p(MW) as GenOutput/Brighton</field>
+   <field>bus#1:load(MW) as Bus2Load</field>
+   <field>bus#2:load(MW) as Bus3Load</field>
+   <field>bus#3:load(MW) as Bus4Load</field>
+   </recorder>
+   <timestart>0</timestart>
+   <timestop>30000</timestop>
+</griddyn>

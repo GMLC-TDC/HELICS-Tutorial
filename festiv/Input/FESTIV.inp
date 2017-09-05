@@ -1,0 +1,6 @@
+inputPath=Input/PJM_5BUS.xlsx
+start_execution = 
+delete_old_files = Yes
+unit_out_num = 0
+simulation_days = 7
+rtc_vg_data_create = 9.00439

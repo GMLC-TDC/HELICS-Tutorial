@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--xml file to test matdyn execution-->
+<griddyn name="TransmissionSim" version="0.0.1">
+
+<import file="case5_mod.m"/>
+
+<bus index=0>
+
+<gen index=0 rename="ALTA">
+<pmin>0</pmin>
+<flag>no_control</flag>
+<source type="helics">
+<key>MarketSim/AGCGenDispatch/Alta</key>
+<inputunits>MW</inputunits>
+<outputunits>puMW</outputunits>
+</source>
+</gen>
+<gen index=1 rename="PARKCITY">
+<pmax unit=MW> 270</pmax>
+<pmin>0</pmin> 
+<source type="helics">
+<key>MarketSim/AGCGenDispatch/ParkCity</key>
+<inputunits>MW</inputunits>
+<outputunits>puMW</outputunits>
+</source>  
+</gen>
+</bus>
+
+<bus index=1>
+<basevoltage>13.8</basevoltage>
+<load index=0>
+<retype>helics</retype>
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<voltagekey>B2Voltage</voltagekey>
+<loadkey>DistributionSim_B2_R_2_1/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B2_R_2_2/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B2_R_2_3/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B2_G_1/totalLoad</loadkey>
+</load>
+</bus>
+
+<bus index=2>
+<basevoltage>13.8</basevoltage>
+<load index=0>
+<retype>helics</retype>
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B3_R_3_1/totalLoad</loadkey>
+<voltagekey>B3Voltage</voltagekey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B3_R_3_2/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B3_R_3_3/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B3_R_3_4/totalLoad</loadkey>
+</load>
+<gen index=0 rename="SOLITUDE">
+<source type="helics">
+<key>MarketSim/AGCGenDispatch/Solitude</key>
+<inputunits>MW</inputunits>
+<outputunits>puMW</outputunits>
+</source>
+<pmin>0</pmin>
+</gen>
+</bus>
+
+<bus index=3>
+<basevoltage>13.8</basevoltage>
+<load index=0>
+<retype>helics</retype>
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<voltagekey>B4Voltage</voltagekey>
+<loadkey>DistributionSim_B4_R_1_1/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B4_R_1_2/totalLoad</loadkey>
+</load>
+<load type="helics">
+<scalefactor>16.666667</scalefactor>
+<p>3.0</p>
+<loadkey>DistributionSim_B4_G_1/totalLoad</loadkey>
+</load>
+<gen index=0 rename="SUNDANCE">
+<source type="helics">
+<key>MarketSim/AGCGenDispatch/Sundance</key>
+<inputunits>MW</inputunits>
+<outputunits>puMW</outputunits>
+</source>
+<pmin>0</pmin>
+<!--<model type="classical"></model>
+<gov type="tgov1"/>
+<exciter type="type1"/>-->
+</gen>
+</bus>
+
+<bus index=4>
+<voltage>1.02</voltage>
+<gen index=0 rename="BRIGHTON">
+<source type="helics">
+<key>MarketSim/AGCGenDispatch/Brighton</key>
+<inputunits>MW</inputunits>
+<outputunits>puMW</outputunits>
+</source>
+<pmin>0</pmin>   
+</gen>
+</bus>
+
+<recorder period=1.0>
+<autosave>2000</autosave>
+   <file>tdc_output_nd.csv</file>
+   <field>bus#0:voltage</field>
+   <field>bus#1:voltage</field>
+   <field>bus#2:voltage</field>
+   <field>bus#3:voltage</field>
+   <field>bus#4:voltage</field>
+   <field>bus#0:angle(deg)</field>
+   <field>bus#1:angle(deg)</field>
+   <field>bus#2:angle(deg)</field>
+   <field>bus#3:angle(deg)</field>
+   <field>bus#4:angle(deg)</field>
+   <field>bus#0::ALTA:p(MW)</field>
+   <field>bus#0::PARKCITY:p(MW)</field>
+   <field>bus#2::SOLITUDE:p(MW)</field>
+   <field>bus#3::SUNDANCE:p(MW)</field>
+   <field>bus#4::BRIGHTON:p(MW)</field>
+   <field>bus#0::ALTA:q(MW)</field>
+   <field>bus#0::PARKCITY:q(MW)</field>
+   <field>bus#2::SOLITUDE:q(MW)</field>
+   <field>bus#3::SUNDANCE:q(MW)</field>
+   <field>bus#4::BRIGHTON:q(MW)</field>
+   <field>bus#1:load(MW)</field>
+   <field>bus#2:load(MW)</field>
+   <field>bus#3:load(MW)</field>
+   <field>bus#1:loadq(MW)</field>
+   <field>bus#2:loadq(MW)</field>
+   <field>bus#3:loadq(MW)</field>
+   </recorder>
+   
+   <collector type="helics" period=6>
+   <field>bus#0::ALTA:p(MW) as pAlta</field>
+   <field>bus#0::ALTA:q(MW) as qAlta</field>
+   <complex>pAlta,qAlta as GenOutput/Alta</complex>
+   <field>bus#0::PARKCITY:p(MW) as pPark</field>
+   <field>bus#0::PARKCITY:q(MW) as qPark</field>
+   <complex>pPark,qPark as GenOutput/ParkCity</complex>
+   <field>bus#2::SOLITUDE:p(MW) as pSol</field>
+   <field>bus#2::SOLITUDE:q(MW) as qSol</field>
+   <complex>pSol,qSol as GenOutput/Solitude</complex>
+   <field>bus#3::SUNDANCE:p(MW) as pSun</field>
+   <field>bus#3::SUNDANCE:q(MW) as qSun</field>
+   <complex>pSun,qSun as GenOutput/Sundance</complex>
+   <field>bus#4::BRIGHTON:p(MW) as pBri</field>
+   <field>bus#4::BRIGHTON:q(MW) as qBri</field>
+   <complex>pBri,qBri as  GenOutput/Brighton</complex>
+   <field>bus#1:load(MW) as p2</field>
+   <field>bus#1:loadq(MW) as q2</field>
+   <complex>p2,q2 as B2Load</complex>
+   <field>bus#2:load(MW) as p3</field>
+   <field>bus#2:loadq(MW) as q3</field>
+   <complex>p3,q3 as B3Load</complex>
+   <field>bus#3:load(MW) as p4</field>
+   <field>bus#3:loadq(MW) as q4</field>
+   <complex>p4,q4 as B4Load</complex>
+   </collector>
+   <helics>
+   <timedelta>1</timedelta>
+   <coretype>zmq</coretype>
+   <coreinit>"2"</coreinit>
+   <name>TransmissionSim</name>
+   </helics>
+   <timestart>0</timestart>
+   <timestop>86400</timestop>
+   <timestep>1.0</timestep>
+</griddyn>
