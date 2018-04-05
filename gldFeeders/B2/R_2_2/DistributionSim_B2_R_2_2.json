@@ -7,10 +7,12 @@
     "subscriptions" : {
         "network_node" : {
             "positive_sequence_voltage" : "TransmissionSim/B2Voltage"
-        },
-        "Market_1" : {
-            "fixed_price" : "MarketSim/LMP/B2"
         }
     },
-	"number_of_cores" : "2"
+    "endpoint_subscriptions" : {
+        "Market_1" : {
+            "fixed_price" : "fixed_price"
+        }
+    },
+    "number_of_cores" : "1"
 }
