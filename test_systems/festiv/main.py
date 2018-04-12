@@ -15,7 +15,7 @@ timeseries = os.path.join(current_directory, 'Input', 'TIMESERIES')
 
 logger = logging.getLogger('psst.festiv')
 
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 def create_broker():
     initstring = "2 --name=mainbroker"
@@ -76,7 +76,7 @@ def build_DAM_model(day, s):
     for i in range(0, len(s.index)):
         mpc.load.loc[i] = mpc.load.loc[0]
 
-    for b, v in pd.read_excel(filename, sheetname='LOAD_DIST', index_col=0,).iterrows():
+    for b, v in pd.read_excel(filename, sheet_name='LOAD_DIST', index_col=0,).iterrows():
         mpc.load.loc[:, b] = v.values[0] * s.values
 
     m = build_model(mpc)
@@ -89,7 +89,7 @@ def build_RTM_model(day, load, commitment):
     mpc = read_festiv(filename)
     mpc.gen['RAMP_10'] = mpc.gen['PMAX']
 
-    for b, v in pd.read_excel(filename, sheetname='LOAD_DIST', index_col=0,).iterrows():
+    for b, v in pd.read_excel(filename, sheet_name='LOAD_DIST', index_col=0,).iterrows():
         mpc.load.loc[:, b] = v.values[0] * load
 
     for col in mpc.gen['GEN_STATUS'].index:
@@ -183,7 +183,6 @@ def main():
                         while time_granted < stop_at_time:
                             status, time_granted = h.helicsFederateRequestTime(fed, stop_at_time)
 
-                        logger.info("Publishing lmp and pg at second = {second} ".format(second=ticker))
 
                         b2, b3, b4 = rtm_m.results.lmp[['B2', 'B3', 'B4']].values[0]
                         # vf.send(str(b2), 'MarketSim/LMP/Bus2')
@@ -200,6 +199,12 @@ def main():
                         # vf.send(str(pg['SOLITUDE']), 'MarketSim/AGCGenDispatch/Solitude')
                         # vf.send(str(pg['SUNDANCE']), 'MarketSim/AGCGenDispatch/Sundance')
 
+                        logger.info("Publishing lmp B2={}".format(b2))
+                        logger.info("Publishing lmp B3={}".format(b2))
+                        logger.info("Publishing lmp B4={}".format(b2))
+
+                        logger.info("Publishing pg = {}".format(pg))
+                        logger.info("Current time = {minutes} ".format(minutes=ticker/60))
 
 
 if __name__ == '__main__':
