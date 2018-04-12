@@ -2,8 +2,7 @@ import logging
 import os
 import pandas as pd
 import time
-
-from helics import PyValueFederate, PyFederateInfo
+import helics as h
 
 from psst.model import build_model
 
@@ -18,7 +17,55 @@ logger = logging.getLogger('psst.festiv')
 
 logger.setLevel(logging.DEBUG)
 
-N = int(os.environ.get('HELICS_FEDERATES', 13))
+def create_broker():
+    initstring = "2 --name=mainbroker"
+    broker = h.helicsCreateBroker("zmq", "", initstring)
+    isconnected = h.helicsBrokerIsConnected(broker)
+
+    if isconnected == 1:
+        pass
+
+    return broker
+
+
+def create_value_federate(deltat=1.0, fedinitstring="--federates=1"):
+    logger.debug("Creating federateinfo")
+    fedinfo = h.helicsFederateInfoCreate()
+
+    logger.debug("Setting name")
+    status = h.helicsFederateInfoSetFederateName(fedinfo, "FESTIVLite Federate")
+    assert status == 0
+
+    logger.debug("Setting core type")
+    status = h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
+    assert status == 0
+
+    logger.debug("Setting init string")
+    status = h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring)
+    assert status == 0
+
+    logger.debug("Setting time delta")
+    status = h.helicsFederateInfoSetTimeDelta(fedinfo, deltat)
+    assert status == 0
+
+    logger.debug("Setting logging level")
+    status = h.helicsFederateInfoSetLoggingLevel(fedinfo, 1)
+    assert status == 0
+
+    logger.debug("Creating CombinationFederate")
+    fed = h.helicsCreateCombinationFederate(fedinfo)
+
+    return fed
+
+def destroy_value_federate(fed):
+    status = h.helicsFederateFinalize(fed)
+
+    status, state = h.helicsFederateGetState(fed)
+    assert state == 3
+
+    h.helicsFederateFree(fed)
+
+    h.helicsCloseLibrary()
 
 
 def build_DAM_model(day, s):
@@ -86,23 +133,18 @@ def find_all_topics():
 
 
 def main():
+    logger.info("Creating CombinationFederate for FESTIV")
+    fed = create_value_federate()
 
-    logger.info("Creating a federate in a `{N}` federate simulation".format(N=N))
-    fi = PyFederateInfo(N)
-    fi.setName('MarketSim')
+    logger.info("Registering endpoint")
+    epid = h.helicsFederateRegisterGlobalEndpoint(fed, "festiv-price", "")
 
-    logger.info("Finding all topics")
-    topics = find_all_topics()
+    h.helicsFederateEnterExecutionMode(fed)
 
-    logger.info("Creating a ValueFederate")
-    vf = PyValueFederate(fi=fi, publications=topics, subscriptions=topics)
-
-    logger.info("Entering executation state")
-    vf.enterExecutionState()
-
-    time_granted = 0
+    time_granted = -1
     last_second = -1
     ticker = 0
+
 
     for day in [
             '2020-08-03',
@@ -119,7 +161,7 @@ def main():
         dam_s = df.loc[day, 'LOAD'].resample('1H').mean()
 
         dam_m = build_DAM_model(day, dam_s)
-        dam_m.solve('cbc', verbose=False, resolve=True)
+        dam_m.solve('cbc', verbose=False)
 
         rtm_s = df.loc[day, 'LOAD'].resample('5T').mean()
 
@@ -128,7 +170,7 @@ def main():
             logger.info("Running RTM for day={day} for minute={m} (hour={hour})".format(day=day, m=interval * 5, hour=hour))
             commitment = dam_m.results.unit_commitment.loc[hour:hour, :]
             rtm_m = build_RTM_model(day, rtm_s.iloc[interval], commitment)
-            rtm_m.solve('cbc', verbose=False, resolve=True)
+            rtm_m.solve('cbc', verbose=False)
             logger.debug("LMP = {lmp} \t Power Generated = {pg}".format(lmp=rtm_m.results.lmp, pg=rtm_m.results.power_generated))
 
             for minute in range(0, 5):
@@ -139,27 +181,20 @@ def main():
                         logger.info("Publishing lmp and pg at second = {second} ".format(second=ticker))
 
                         b2, b3, b4 = rtm_m.results.lmp[['B2', 'B3', 'B4']].values[0]
-                        vf.send(str(b2), 'MarketSim/LMP/Bus2')
-                        vf.send(str(b3), 'MarketSim/LMP/Bus3')
-                        vf.send(str(b4), 'MarketSim/LMP/Bus4')
+                        # vf.send(str(b2), 'MarketSim/LMP/Bus2')
+                        # vf.send(str(b3), 'MarketSim/LMP/Bus3')
+                        # vf.send(str(b4), 'MarketSim/LMP/Bus4')
+                        status = h.helicsEndpointSendMessageRaw(epid, "fixed_price", str(b2))
 
                         pg = rtm_m.results.power_generated.loc[0].to_dict()
 
-                        vf.send(str(pg['ALTA']), 'MarketSim/AGCGenDispatch/Alta')
-                        vf.send(str(pg['BRIGHTON']), 'MarketSim/AGCGenDispatch/Brighton')
-                        vf.send(str(pg['PARKCITY']), 'MarketSim/AGCGenDispatch/ParkCity')
-                        vf.send(str(pg['SOLITUDE']), 'MarketSim/AGCGenDispatch/Solitude')
-                        vf.send(str(pg['SUNDANCE']), 'MarketSim/AGCGenDispatch/Sundance')
+                        # status = h.helicsFederatePublicationPublishDouble(pubid, "fixed_price", str(b2))
+                        # vf.send(str(pg['ALTA']), 'MarketSim/AGCGenDispatch/Alta')
+                        # vf.send(str(pg['BRIGHTON']), 'MarketSim/AGCGenDispatch/Brighton')
+                        # vf.send(str(pg['PARKCITY']), 'MarketSim/AGCGenDispatch/ParkCity')
+                        # vf.send(str(pg['SOLITUDE']), 'MarketSim/AGCGenDispatch/Solitude')
+                        # vf.send(str(pg['SUNDANCE']), 'MarketSim/AGCGenDispatch/Sundance')
 
-                    if ticker != last_second:
-                        while time_granted < int(ticker):
-
-                            time_granted = vf.requestTime(int(ticker))
-                            #time.sleep(.25)
-
-                        last_second = ticker
-
-                    ticker = ticker + 1
 
 
 if __name__ == '__main__':
