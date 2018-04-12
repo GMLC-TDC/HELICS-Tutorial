@@ -9,7 +9,7 @@
             "positive_sequence_voltage" : "TransmissionSim/B4Voltage"
         }
     },
-    "endpoint_subsciptions" : {
+    "endpoint_subscriptions" : {
         "Market_1" : {
             "fixed_price" : "fixed_price"
         }
