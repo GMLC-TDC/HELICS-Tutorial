@@ -176,8 +176,13 @@ def main():
             for minute in range(0, 5):
 
                 for second in range(0, 60):
+                    ticker = ticker + 1
 
                     if int(second % 6) == 0:
+                        stop_at_time = ticker
+                        while time_granted < stop_at_time:
+                            status, time_granted = h.helicsFederateRequestTime(fed, stop_at_time)
+
                         logger.info("Publishing lmp and pg at second = {second} ".format(second=ticker))
 
                         b2, b3, b4 = rtm_m.results.lmp[['B2', 'B3', 'B4']].values[0]
