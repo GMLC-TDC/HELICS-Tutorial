@@ -1,7 +1,7 @@
 {
     "federates":[
         {
-            "directory":"/Users/dkrishna/GitRepos/HELICS-Tutorial/scripts/distribution-example/DistributionFederation",
+            "directory":"./",
             "exec":"python federate1.py",
             "host":"localhost",
             "name":"PythonCombinationFederate"
