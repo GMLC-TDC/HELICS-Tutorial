@@ -70,9 +70,9 @@ def main():
 
     hours = 1
     seconds = int(60 * 60 * hours)
-    grantedtime = 0
+    grantedtime = -1
     random.seed(0)
-    for t in range(1, seconds + 1, 60 * 5):
+    for t in range(0, seconds, 60 * 5):
         c = complex(132790.562, 0) * (1 + (random.random() - 0.5)/2)
         logger.info("Voltage value = {} kV".format(abs(c)/1000))
         status = h.helicsPublicationPublishComplex(pubid, c.real, c.imag)
@@ -84,11 +84,18 @@ def main():
         logger.info("Python Federate grantedtime = {}".format(grantedtime))
         logger.info("Load value = {} MW".format(complex(rValue, iValue)/1000))
 
+    t = 60 * 60 * 24
+    while grantedtime < t:
+        status, grantedtime = h.helicsFederateRequestTime (fed, t)
+    logger.info("Destroying federate")
     destroy_value_federate(fed, broker)
+
 
 if __name__ == "__main__":
 
     main()
+    logger.info("Done!")
+
 
 
 
