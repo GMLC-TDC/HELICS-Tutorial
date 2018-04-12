@@ -1,0 +1,23 @@
+{
+    "federates":[
+        {
+            "directory":"./",
+            "exec":"python federate1.py",
+            "host":"localhost",
+            "name":"PythonCombinationFederate"
+        },
+        {
+            "directory":"../../../test_systems/festiv/",
+            "exec":"python main.py",
+            "host":"localhost",
+            "name":"FESTIVLiteFederate"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B2/G_1/",
+            "exec":"gridlabd DistributionSim_B2_G_1.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate"
+        }
+    ],
+    "name":"TransmissionDistributionFederation"
+}
