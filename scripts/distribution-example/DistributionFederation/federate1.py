@@ -1,7 +1,11 @@
 import time
 import helics as h
 import random
+import logging
 
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 def create_broker():
     initstring = "2 --name=mainbroker"
@@ -70,15 +74,15 @@ def main():
     random.seed(0)
     for t in range(1, seconds + 1, 60 * 5):
         c = complex(132790.562, 0) * (1 + (random.random() - 0.5)/2)
-        print("Voltage value = {} kV".format(abs(c)/1000))
+        logger.info("Voltage value = {} kV".format(abs(c)/1000))
         status = h.helicsPublicationPublishComplex(pubid, c.real, c.imag)
         # status = h.helicsEndpointSendEventRaw(epid, "fixed_price", 10, t)
         while grantedtime < t:
             status, grantedtime = h.helicsFederateRequestTime (fed, t)
         time.sleep(1)
         status, rValue, iValue = h.helicsSubscriptionGetComplex(subid)
-        print("Python Federate grantedtime = {}".format(grantedtime))
-        print("Load value = {} MW".format(complex(rValue, iValue)/1000))
+        logger.info("Python Federate grantedtime = {}".format(grantedtime))
+        logger.info("Load value = {} MW".format(complex(rValue, iValue)/1000))
 
     destroy_value_federate(fed, broker)
 
