@@ -4,13 +4,13 @@
             "directory":"/Users/dkrishna/GitRepos/HELICS-Tutorial/scripts/distribution-example/DistributionFederation",
             "exec":"python federate1.py",
             "host":"localhost",
-            "name":"Federate1"
+            "name":"PythonCombinationFederate"
         },
         {
             "directory":"../../test_systems/gldFeeders/B2/G_1/",
             "exec":"gridlabd DistributionSim_B2_G_1.glm",
             "host":"localhost",
-            "name":"Federate2"
+            "name":"GridLABDFederate"
         }
     ],
     "name":"DistributionFederation"
