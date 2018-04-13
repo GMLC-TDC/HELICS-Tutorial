@@ -35,7 +35,49 @@
             "directory":"../../../test_systems/gldFeeders/B2/R_2_3/",
             "exec":"gridlabd DistributionSim_B2_R_2_3.glm",
             "host":"localhost",
-            "name":"GridLABDFederate2"
+            "name":"GridLABDFederate4"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B3/R_3_1/",
+            "exec":"gridlabd DistributionSim_B3_R_3_1.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate5"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B3/R_3_2/",
+            "exec":"gridlabd DistributionSim_B3_R_3_2.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate6"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B3/R_3_3/",
+            "exec":"gridlabd DistributionSim_B3_R_3_3.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate7"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B3/R_3_4/",
+            "exec":"gridlabd DistributionSim_B3_R_3_4.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate8"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B4/G_1/",
+            "exec":"gridlabd DistributionSim_B4_G_1.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate9"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B4/R_1_1/",
+            "exec":"gridlabd DistributionSim_B4_R_1_1.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate10"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B4/R_1_2/",
+            "exec":"gridlabd DistributionSim_B4_R_1_2.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate11"
         }
     ],
     "name":"TransmissionDistributionFederation"
