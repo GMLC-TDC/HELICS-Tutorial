@@ -1,10 +1,11 @@
 {
+    "broker": true,
     "federates":[
         {
-            "directory":"./",
-            "exec":"python federate1.py",
+            "directory":"../../../test_systems/GridDyn/",
+            "exec":"python mock_griddyn.py",
             "host":"localhost",
-            "name":"PythonCombinationFederate"
+            "name":"GridDynFederate"
         },
         {
             "directory":"../../../test_systems/festiv/",
@@ -16,7 +17,25 @@
             "directory":"../../../test_systems/gldFeeders/B2/G_1/",
             "exec":"gridlabd DistributionSim_B2_G_1.glm",
             "host":"localhost",
-            "name":"GridLABDFederate"
+            "name":"GridLABDFederate1"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B2/R_2_1/",
+            "exec":"gridlabd DistributionSim_B2_R_2_1.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate2"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B2/R_2_2/",
+            "exec":"gridlabd DistributionSim_B2_R_2_2.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate3"
+        },
+        {
+            "directory":"../../../test_systems/gldFeeders/B2/R_2_3/",
+            "exec":"gridlabd DistributionSim_B2_R_2_3.glm",
+            "host":"localhost",
+            "name":"GridLABDFederate2"
         }
     ],
     "name":"TransmissionDistributionFederation"

@@ -8,7 +8,7 @@ logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
 def create_broker():
-    initstring = "3 --name=mainbroker"
+    initstring = "2 --name=mainbroker"
     broker = h.helicsCreateBroker("zmq", "", initstring)
     isconnected = h.helicsBrokerIsConnected(broker)
 
@@ -62,9 +62,19 @@ def main():
 
     pubid = h.helicsFederateRegisterGlobalTypePublication (fed, "TransmissionSim/B2Voltage", h.HELICS_DATA_TYPE_COMPLEX, "")
     subid = h.helicsFederateRegisterSubscription (fed, "DistributionSim_B2_G_1/totalLoad", "complex", "")
+    subid2 = h.helicsFederateRegisterSubscription (fed, "GenOutput/Alta", "complex", "")
+    subid3 = h.helicsFederateRegisterSubscription (fed, "GenOutput/ParkCity", "complex", "")
+    subid4 = h.helicsFederateRegisterSubscription (fed, "GenOutput/Solitude", "complex", "")
+    subid5 = h.helicsFederateRegisterSubscription (fed, "GenOutput/Sundance", "complex", "")
+    subid6 = h.helicsFederateRegisterSubscription (fed, "GenOutput/Brighton", "complex", "")
     epid = h.helicsFederateRegisterEndpoint(fed, "ep1", None)
 
     h.helicsSubscriptionSetDefaultComplex(subid, 0, 0)
+    h.helicsSubscriptionSetDefaultComplex(subid2, 0, 0)
+    h.helicsSubscriptionSetDefaultComplex(subid3, 0, 0)
+    h.helicsSubscriptionSetDefaultComplex(subid4, 0, 0)
+    h.helicsSubscriptionSetDefaultComplex(subid5, 0, 0)
+    h.helicsSubscriptionSetDefaultComplex(subid6, 0, 0)
 
     h.helicsFederateEnterExecutionMode(fed)
 
