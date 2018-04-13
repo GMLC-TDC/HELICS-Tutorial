@@ -18,11 +18,11 @@ def create_broker():
     return broker
 
 
-def create_value_federate(broker, deltat=1.0, fedinitstring="--broker=mainbroker --federates=1"):
+def create_federate(deltat=1.0, fedinitstring="--federates=1"):
 
     fedinfo = h.helicsFederateInfoCreate()
 
-    status = h.helicsFederateInfoSetFederateName(fedinfo, "TestA Federate")
+    status = h.helicsFederateInfoSetFederateName(fedinfo, "Combination Federate")
     assert status == 0
 
     status = h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
@@ -41,7 +41,7 @@ def create_value_federate(broker, deltat=1.0, fedinitstring="--broker=mainbroker
 
     return fed
 
-def destroy_value_federate(fed, broker):
+def destroy_federate(fed, broker):
     status = h.helicsFederateFinalize(fed)
 
     status, state = h.helicsFederateGetState(fed)
@@ -57,8 +57,8 @@ def destroy_value_federate(fed, broker):
 
 def main():
 
-    broker = create_broker()
-    fed = create_value_federate(broker)
+    # broker = create_broker()
+    fed = create_federate()
 
     pubid = h.helicsFederateRegisterGlobalTypePublication (fed, "TransmissionSim/B2Voltage", h.HELICS_DATA_TYPE_COMPLEX, "")
     subid = h.helicsFederateRegisterSubscription (fed, "DistributionSim_B2_G_1/totalLoad", "complex", "")
@@ -88,7 +88,7 @@ def main():
     while grantedtime < t:
         status, grantedtime = h.helicsFederateRequestTime (fed, t)
     logger.info("Destroying federate")
-    destroy_value_federate(fed, broker)
+    destroy_federate(fed)
 
 
 if __name__ == "__main__":
