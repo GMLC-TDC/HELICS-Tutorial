@@ -17,6 +17,7 @@ logger = logging.getLogger('psst.festiv')
 
 logger.setLevel(logging.INFO)
 
+
 def create_broker():
     initstring = "2 --name=mainbroker"
     broker = h.helicsCreateBroker("zmq", "", initstring)
@@ -33,7 +34,7 @@ def create_value_federate(deltat=1.0, fedinitstring="--federates=1"):
     fedinfo = h.helicsFederateInfoCreate()
 
     logger.debug("Setting name")
-    status = h.helicsFederateInfoSetFederateName(fedinfo, "FESTIVLite Federate")
+    status = h.helicsFederateInfoSetFederateName(fedinfo, "MarketSim")
     assert status == 0
 
     logger.debug("Setting core type")
@@ -66,6 +67,18 @@ def destroy_value_federate(fed):
     h.helicsFederateFree(fed)
 
     h.helicsCloseLibrary()
+
+def create_mapping():
+    mapping = {}
+
+    for root, _, filenames in os.walk("../gldFeeders/"):
+        for filename in filenames:
+            if filename.endswith(".glm") and filename.startswith("DistributionSim"):
+                bus_name = filename.split("_")[1]
+                if bus_name not in mapping:
+                    mapping[bus_name] = []
+                mapping[bus_name].append(filename.replace(".glm", ""))
+    return mapping
 
 
 def build_DAM_model(day, s):
@@ -133,18 +146,25 @@ def find_all_topics():
 
 
 def main():
+    mapping = create_mapping()
+
     logger.info("Creating CombinationFederate for FESTIV")
     fed = create_value_federate()
 
+    pubid1 = h.helicsFederateRegisterGlobalTypePublication(fed, "AGCGenDispatch/Alta", h.HELICS_DATA_TYPE_COMPLEX, "")
+    pubid2 = h.helicsFederateRegisterGlobalTypePublication(fed, "AGCGenDispatch/Brighton", h.HELICS_DATA_TYPE_COMPLEX, "")
+    pubid3 = h.helicsFederateRegisterGlobalTypePublication(fed, "AGCGenDispatch/ParkCity", h.HELICS_DATA_TYPE_COMPLEX, "")
+    pubid4 = h.helicsFederateRegisterGlobalTypePublication(fed, "AGCGenDispatch/Solitude", h.HELICS_DATA_TYPE_COMPLEX, "")
+    pubid5 = h.helicsFederateRegisterGlobalTypePublication(fed, "AGCGenDispatch/Sundance", h.HELICS_DATA_TYPE_COMPLEX, "")
+
     logger.info("Registering endpoint")
-    epid = h.helicsFederateRegisterGlobalEndpoint(fed, "festiv-price", "")
+    epid = h.helicsFederateRegisterGlobalEndpoint(fed, "festiv-fixed-price", "")
 
     h.helicsFederateEnterExecutionMode(fed)
 
     time_granted = -1
     last_second = -1
     ticker = 0
-
 
     for day in [
             '2020-08-03',
@@ -185,19 +205,20 @@ def main():
 
 
                         b2, b3, b4 = rtm_m.results.lmp[['B2', 'B3', 'B4']].values[0]
-                        # vf.send(str(b2), 'MarketSim/LMP/Bus2')
-                        # vf.send(str(b3), 'MarketSim/LMP/Bus3')
-                        # vf.send(str(b4), 'MarketSim/LMP/Bus4')
-                        status = h.helicsEndpointSendMessageRaw(epid, "fixed_price", str(b2))
+                        for name in mapping["B2"]:
+                            status = h.helicsEndpointSendMessageRaw(epid, "{}/fixed_price".format(name), str(b2))
+                        for name in mapping["B3"]:
+                            status = h.helicsEndpointSendMessageRaw(epid, "{}/fixed_price".format(name), str(b3))
+                        for name in mapping["B4"]:
+                            status = h.helicsEndpointSendMessageRaw(epid, "{}/fixed_price".format(name), str(b4))
 
                         pg = rtm_m.results.power_generated.loc[0].to_dict()
 
-                        # status = h.helicsFederatePublicationPublishDouble(pubid, "fixed_price", str(b2))
-                        # vf.send(str(pg['ALTA']), 'MarketSim/AGCGenDispatch/Alta')
-                        # vf.send(str(pg['BRIGHTON']), 'MarketSim/AGCGenDispatch/Brighton')
-                        # vf.send(str(pg['PARKCITY']), 'MarketSim/AGCGenDispatch/ParkCity')
-                        # vf.send(str(pg['SOLITUDE']), 'MarketSim/AGCGenDispatch/Solitude')
-                        # vf.send(str(pg['SUNDANCE']), 'MarketSim/AGCGenDispatch/Sundance')
+                        status = h.helicsPublicationPublishDouble(pubid1, pg["ALTA"])
+                        status = h.helicsPublicationPublishDouble(pubid2, pg["BRIGHTON"])
+                        status = h.helicsPublicationPublishDouble(pubid3, pg["PARKCITY"])
+                        status = h.helicsPublicationPublishDouble(pubid4, pg["SOLITUDE"])
+                        status = h.helicsPublicationPublishDouble(pubid5, pg["SUNDANCE"])
 
                         logger.info("Publishing lmp B2={}".format(b2))
                         logger.info("Publishing lmp B3={}".format(b2))
