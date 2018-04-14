@@ -6,7 +6,7 @@ Run in terminal 1
 
 ```bash
 cd /path/to/HELICS-Tutorial/tutorials/2-DistributionFederation-HELICSRunner/
-helics run --path DistributionFederation.json
+helics run --path config.json
 ```
 
 Run in terminal 2
