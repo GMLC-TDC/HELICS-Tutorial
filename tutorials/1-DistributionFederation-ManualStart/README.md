@@ -1,6 +1,6 @@
-# 1-DistributionFederation-ManualStart
+# Tutorial-1-DistributionFederation-ManualStart
 
-### GridLAB-D + PythonCombinationFederate**
+**GridLAB-D + PythonCombinationFederate**
 
 Run in terminal 1
 
