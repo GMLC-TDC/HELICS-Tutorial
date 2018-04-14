@@ -159,6 +159,8 @@ def main():
 
     logger.info("Registering endpoint")
     epid = h.helicsFederateRegisterGlobalEndpoint(fed, "festiv-fixed-price", "")
+    fedfilter = h.helicsFederateRegisterSourceFilter(fed, 1, "festiv-fixed-price", "delay_filter")
+    status = h.helicsFilterSet(fedfilter, "delay", 2)
 
     h.helicsFederateEnterExecutionMode(fed)
 
