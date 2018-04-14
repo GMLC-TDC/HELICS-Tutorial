@@ -1,3 +1,9 @@
+---
+layout: page
+title: Setup
+permalink: /setup
+---
+
 Installing GridLAB-D with HELICS on Linux and MacOS:
 
 -   Make sure GridLAB-D’s prerequisites are installed: automake,
