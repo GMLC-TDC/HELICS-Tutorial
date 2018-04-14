@@ -99,5 +99,3 @@ Festive Lite:
 
 -   To run the file open a terminal at the file location and run python
     main.py.
-
-
