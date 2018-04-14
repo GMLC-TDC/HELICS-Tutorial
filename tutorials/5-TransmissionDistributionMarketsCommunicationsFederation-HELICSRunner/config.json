@@ -9,7 +9,7 @@
         },
         {
             "directory":"../../test_system_data/festiv/",
-            "exec":"python main.py",
+            "exec":"python main.py --delay=2",
             "host":"localhost",
             "name":"FESTIVLiteFederate"
         },
@@ -82,3 +82,4 @@
     ],
     "name":"TransmissionDistributionFederation"
 }
+
