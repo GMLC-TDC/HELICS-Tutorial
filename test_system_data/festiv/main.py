@@ -1,3 +1,4 @@
+import sys
 import logging
 import os
 import pandas as pd
@@ -15,7 +16,6 @@ timeseries = os.path.join(current_directory, 'Input', 'TIMESERIES')
 
 logger = logging.getLogger('psst.festiv')
 
-logger.setLevel(logging.INFO)
 
 
 def create_broker():
@@ -145,7 +145,10 @@ def find_all_topics():
     return topics
 
 
-def main():
+def main(delay=None, verbose=False):
+    if verbose is not False:
+        logger.setLevel(logging.DEBUG)
+
     mapping = create_mapping()
 
     logger.info("Creating CombinationFederate for FESTIV")
@@ -159,8 +162,9 @@ def main():
 
     logger.info("Registering endpoint")
     epid = h.helicsFederateRegisterGlobalEndpoint(fed, "festiv-fixed-price", "")
-    fedfilter = h.helicsFederateRegisterSourceFilter(fed, 1, "festiv-fixed-price", "delay_filter")
-    status = h.helicsFilterSet(fedfilter, "delay", 2)
+    if delay is not None:
+        fedfilter = h.helicsFederateRegisterSourceFilter(fed, 1, "festiv-fixed-price", "delay_filter")
+        status = h.helicsFilterSet(fedfilter, "delay", int(delay))
 
     h.helicsFederateEnterExecutionMode(fed)
 
@@ -231,4 +235,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--verbose", action="store_true",
+                        help="increase output verbosity")
+    parser.add_argument("--delay", type=int,
+                        help="delay fixed_price")
+
+    args = parser.parse_args()
+    delay = args.delay
+    verbose = args.verbose
+    main(delay=delay, verbose=verbose)
