@@ -1,4 +1,4 @@
-# Tutorial-2-DistributionFederation-HELICSRunner
+# 2-DistributionFederation-HELICSRunner
 
 **GridLAB-D + PythonCombinationFederate**
 
