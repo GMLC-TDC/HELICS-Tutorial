@@ -1,6 +1,6 @@
 # Tutorial-2-DistributionFederation-HELICSRunner
 
-### GridLAB-D + PythonCombinationFederate**
+**GridLAB-D + PythonCombinationFederate**
 
 Run in terminal 1
 

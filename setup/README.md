@@ -4,6 +4,11 @@
 
 See install instructions [here](https://gmlc-tdc.github.io/HELICS-src/installation/index.html).
 
+### Install HELICSRunner
+
+See install instructions [here](https://github.com/GMLC-TDC/helics-runner).
+
+
 ### Install GridLAB-D
 
 Installing GridLAB-D with HELICS on Linux and MacOS:
