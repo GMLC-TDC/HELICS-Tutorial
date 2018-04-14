@@ -1,7 +1,5 @@
 # Tutorials
 
-There are 4 folders in the tutorials folder on GitHub.
-
 ### [Tutorial-1-DistributionFederation-ManualStart](./1-DistributionFederation-ManualStart/README.md)
 
 This is an example of a single GridLAB-D HELICS Federate interacting with a Python HELICS Combination Federate (for logging) and a HELICS Broker.
