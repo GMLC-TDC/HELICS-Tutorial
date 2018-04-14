@@ -8,7 +8,7 @@
             "name":"PythonCombinationFederate"
         },
         {
-            "directory":"../../../test_systems/gldFeeders/B2/G_1/",
+            "directory":"../../test_system_data/gldFeeders/B2/G_1/",
             "exec":"gridlabd DistributionSim_B2_G_1.glm",
             "host":"localhost",
             "name":"GridLABDFederate"
