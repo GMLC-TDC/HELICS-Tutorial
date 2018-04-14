@@ -7,5 +7,5 @@ that include Transmission, Distribution, Markets and Communication federates.
 
 Table of Contents:
 
-- [Setup](./setup/index.html)
-- [Tutorials](./tutorials/index.html)
+- [Setup](./setup/README.md)
+- [Tutorials](./tutorials/README.md)
