@@ -13,6 +13,7 @@
 <key>MarketSim/AGCGenDispatch/Alta</key>
 <inputunits>MW</inputunits>
 <outputunits>puMW</outputunits>
+<period>6</period>
 </source>
 </gen>
 <gen index=1 rename="PARKCITY">
@@ -22,6 +23,7 @@
 <key>MarketSim/AGCGenDispatch/ParkCity</key>
 <inputunits>MW</inputunits>
 <outputunits>puMW</outputunits>
+<period>6</period>
 </source>  
 </gen>
 </bus>
@@ -81,6 +83,7 @@
 <key>MarketSim/AGCGenDispatch/Solitude</key>
 <inputunits>MW</inputunits>
 <outputunits>puMW</outputunits>
+<period>6</period>
 </source>
 <pmin>0</pmin>
 </gen>
@@ -110,6 +113,7 @@
 <key>MarketSim/AGCGenDispatch/Sundance</key>
 <inputunits>MW</inputunits>
 <outputunits>puMW</outputunits>
+<period>4</period>
 </source>
 <pmin>0</pmin>
 <!--<model type="classical"></model>
@@ -125,6 +129,7 @@
 <key>MarketSim/AGCGenDispatch/Brighton</key>
 <inputunits>MW</inputunits>
 <outputunits>puMW</outputunits>
+<period>6</period>
 </source>
 <pmin>0</pmin>   
 </gen>
@@ -190,7 +195,7 @@
    <helics>
    <timedelta>1</timedelta>
    <coretype>zmq</coretype>
-   <coreinit>"2"</coreinit>
+   <coreinit>"1"</coreinit>
    <name>TransmissionSim</name>
    </helics>
    <timestart>0</timestart>
