@@ -1,8 +1,4 @@
----
-layout: page
-title: Setup
-permalink: /setup
----
+# Setup
 
 Installing GridLAB-D with HELICS on Linux and MacOS:
 
