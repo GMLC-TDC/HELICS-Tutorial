@@ -72,6 +72,12 @@
             "exec":"gridlabd DistributionSim_B4_R_1_2.glm",
             "host":"localhost",
             "name":"GridLABDFederate11"
+        },
+        {
+            "directory":"./",
+            "exec":"python federate1.py",
+            "host":"localhost",
+            "name":"MockFESTIVLiteFederate"
         }
     ],
     "name":"TransmissionDistributionFederation"
