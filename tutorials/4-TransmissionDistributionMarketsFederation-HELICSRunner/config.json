@@ -8,6 +8,12 @@
             "name":"GridDynFederate"
         },
         {
+            "directory":"../../test_system_data/festiv/",
+            "exec":"python main.py --delay=2",
+            "host":"localhost",
+            "name":"FESTIVLiteFederate"
+        },
+        {
             "directory":"../../test_system_data/gldFeeders/B2/G_1/",
             "exec":"gridlabd DistributionSim_B2_G_1.glm",
             "host":"localhost",
@@ -72,12 +78,6 @@
             "exec":"gridlabd DistributionSim_B4_R_1_2.glm",
             "host":"localhost",
             "name":"GridLABDFederate11"
-        },
-        {
-            "directory":"./",
-            "exec":"python federate1.py",
-            "host":"localhost",
-            "name":"MockFestivLiteFederate"
         }
     ],
     "name":"TransmissionDistributionFederation"
