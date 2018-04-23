@@ -26,6 +26,9 @@ Installing GridLAB-D with HELICS on Linux and MacOS:
     GridLAB-D and there prereqs with gcc and not clang. There is an
     outstanding issue with compiling GridLAB-D with Sierra’s version of
     clang.
+    ```
+    ./configure --prefix=/path/to/gridlabd-cc/install/ --with-helics=/path/to/helics/install/ --enable-silent-rules CC='gcc-7' CXX='g++-7' CFLAGS='-g -O0 -w' CXXFLAGS='-g -O0 -w -std=c++14' LDFLAGS='-g -O0 -w'
+    ```
 
 ### Installing GridDyn
 
