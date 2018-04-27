@@ -3,7 +3,7 @@
     "federates":[
         {
             "directory":"../../test_system_data/GridDyn/",
-            "exec":"griddynMain TDC_No_dynamic_HELICS_ld_gen.xml",
+            "exec":"griddynMain TDC_No_dynamic_HELICS_ld_gen.xml --helics",
             "host":"localhost",
             "name":"GridDynFederate"
         },
