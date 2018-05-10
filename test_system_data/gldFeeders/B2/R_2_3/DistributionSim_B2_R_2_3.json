@@ -14,5 +14,5 @@
             "fixed_price" : "fixed_price"
         }
     },
-    "number_of_cores" : "1"
+    "core_init_string" : "1"
 }
