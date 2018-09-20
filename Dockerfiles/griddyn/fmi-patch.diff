@@ -1,0 +1,14 @@
+diff --git a/src/fmi/CMakeLists.txt b/src/fmi/CMakeLists.txt
+index 63f35f7..4ffd693 100644
+--- a/src/fmi/CMakeLists.txt
++++ b/src/fmi/CMakeLists.txt
+@@ -78,7 +78,7 @@ source_group("FMUImport" FILES ${fmiImport_sources} ${fmiImport_headers})
+ 
+ set_target_properties(fmiGDLibrary PROPERTIES FOLDER fmi)
+ 
+-target_link_libraries(fmiGDLibrary griddyn formatInterpreter)
++target_link_libraries(fmiGDLibrary griddyn formatInterpreter ${CMAKE_DL_LIBS})
+ 
+ install(
+     TARGETS fmiGDLibrary
+

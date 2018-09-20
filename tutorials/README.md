@@ -23,4 +23,18 @@ This is an example of 11 GridLAB-D HELICS Federates, a GridDyn HELICS Federate, 
 This is an example of 11 GridLAB-D HELICS Federates, a GridDyn HELICS Federate, a FESTIVLite HELICS Federate, and a HELICS Broker.
 In addition it includes communication delay filter.
 
+### Docker Compose
 
+Each tutorial contains a `docker-compose.yml` file that can be used with
+Docker Compose to run the tutorial using Docker containers.
+
+For example:
+
+```
+$> cd tutorials/1-DistributionFederation-ManualStart
+$> docker-compose up
+```
+
+If the relevant Docker images need to be built, Docker Compose will take
+care of building them before running the tutorial. If this is the case,
+go grab some :coffee: while the images build... it'll be a while.
