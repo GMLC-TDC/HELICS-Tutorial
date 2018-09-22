@@ -43888,7 +43888,7 @@ object recorder {
 
 object tape.group_recorder {
     interval 300;
-    group "class=triplex_node";
+    group "class=triplex_meter";
     file all_triplex_nodes_voltage.csv;
     property voltage_12;
     complex_part MAG;
@@ -43897,7 +43897,7 @@ object tape.group_recorder {
 
 object tape.collector {
     interval 300;
-    group "class=triplex_node";
+    group "class=triplex_meter";
     file triplex_node_stats.csv;
     property min(voltage_12.mag), max(voltage_12.mag), mean(voltage_12.mag), std(voltage_12.mag);
     flush 0;
