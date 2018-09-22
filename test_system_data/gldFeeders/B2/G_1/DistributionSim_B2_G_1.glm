@@ -17,7 +17,9 @@ clock {
 #set profiler=1;
 #set relax_naming_rules=1;
 
-module tape;
+module tape {
+    flush_interval -1;
+}
 module climate;
 module residential {
      implicit_enduses NONE;
@@ -64886,8 +64888,69 @@ object recorder {
 }
 
 
-//This section will describe a number of the parameters// that were used to create this particular GLM.
-// Created: 21-Nov-2016 14:29:12
+object recorder {
+     file substation_voltage.csv;
+     parent network_node;
+     interval 300;
+     property voltage_A.real,voltage_A.imag,voltage_B.real,voltage_B.imag,voltage_C.real,voltage_C.imag;
+     flush 0;
+}
+
+object tape.group_recorder {
+    interval 300;
+    group "class=triplex_node";
+    file all_triplex_nodes_voltage.csv;
+    property voltage_12;
+    complex_part MAG;
+    flush_interval -1;
+};
+
+object tape.collector {
+    interval 300;
+    group "class=triplex_node";
+    file triplex_node_stats.csv;
+    property min(voltage_12.mag), max(voltage_12.mag), mean(voltage_12.mag), std(voltage_12.mag);
+    flush 0;
+};
+
+object tape.collector {
+    interval 300;
+    group "class=regulator";
+    file total_regulator_changes.csv;
+    property sum(tap_A_change_count), sum(tap_B_change_count), sum(tap_A_change_count);
+    flush 0;
+};
+
+object tape.group_recorder {
+    interval 300;
+    group "class=node";
+    file ./all_nodes_voltA_mag.csv;
+    property voltage_A;
+    complex_part MAG;
+    flush_interval -1;
+};
+
+object tape.group_recorder {
+    interval 300;
+    group "class=node";
+    file ./all_nodes_voltB_mag.csv;
+    property voltage_B;
+    complex_part MAG;
+    flush_interval -1;
+};
+
+object tape.group_recorder {
+    interval 300;
+    group "class=node";
+    file ./all_nodes_voltC_mag.csv;
+    property voltage_C;
+    complex_part MAG;
+    flush_interval -1;
+};
+
+
+
+//This section will describe a number of the parameters// that were used to create this particular GLM.// Created: 21-Nov-2016 14:29:12
 
 //Technology Number 4
 
