@@ -50,15 +50,6 @@ object auction {
 	 warmup 0;
 }
 
-//object fncs_msg {
-//	name DistributionSim_B2_G_1;
-//	parent Market_1;
-//	option "transport:hostname localhost, port 5570";
-//	publish "commit:network_node.distribution_load -> totalLoad";
-//	subscribe "precommit:network_node.positive_sequence_voltage <- TransmissionSim/B2Voltage";
-//	subscribe "precommit:Market_1.fixed_price <- MarketSim/LMP/B2";
-//}
-
 object helics_msg {
     name DistributionSim_B2_G_1;
     parent Market_1;

@@ -13,6 +13,5 @@
         "Market_1" : {
             "fixed_price" : "fixed_price"
         }
-    },
-    "core_init_string" : "1"
+    }
 }
