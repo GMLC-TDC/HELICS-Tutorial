@@ -61,11 +61,11 @@ object auction {
 //	subscribe "precommit:Market_1.fixed_price <- MarketSim/LMP/B2";
 //}
 
-// object helics_msg {
-//     name DistributionSim_B2_R_2_1;
-//     parent Market_1;
-//     configure DistributionSim_B2_R_2_1.json;
-// }
+object helics_msg {
+    name DistributionSim_B2_R_2_1;
+    parent Market_1;
+    configure DistributionSim_B2_R_2_1.json;
+}
 
 object climate {
      name "AZ-Phoenix";
