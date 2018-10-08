@@ -324,7 +324,7 @@ object meter {
 object meter {     
       name GC-12-47-1_meter_4;     
       phases ABCN;     
-      nominal_voltage 480;     
+      nominal_voltage 7200;     
 }       
 object node {     
       name GC-12-47-1_node_1;     
