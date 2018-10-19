@@ -14,7 +14,7 @@ Installing GridLAB-D with HELICS on Linux and MacOS:
 
 -   Make sure GridLAB-D’s prerequisites are installed: automake,
     libtool, xerces-c, gcc, g++, and HELICS of course.
--   Checkout feature branch feature/1024 from the GridLAB-D git
+-   Checkout the `develop` branch from the GridLAB-D git
     repository located at <https://github.com/gridlab-d/gridlab-d.git>.
 -   On your terminal navigate to your local checkout of the code.
 -   Type `autoreconf -if`
