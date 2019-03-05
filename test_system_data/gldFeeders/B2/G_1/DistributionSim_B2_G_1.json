@@ -1,18 +1,38 @@
 {
-    "publications" : {
-        "network_node" : {
-            "distribution_load" : "totalLoad"
-        }
-    },
-    "subscriptions" : {
-        "network_node" : {
-            "positive_sequence_voltage" : "TransmissionSim/B2Voltage"
-        }
-    },
-    "endpoint_subscriptions" : {
-        "Market_1" : {
-            "fixed_price" : "fixed_price"
-        }
-    },
-    "core_init_string" : "1"
+	"name" : "DistributionSim_B2_G_1",
+	"period" : 1.0,
+	"publications" : [ 
+		{
+			"global" : false,
+			"key" : "totalLoad",
+			"type" : "complex",
+			"unit" : "MVA",
+			"info" : "{
+				\"object\" : \"network_node\",
+				\"property\" : \"distribution_load\"
+			}"
+		}
+	],
+	"subscriptions" : [
+		{
+			"key" : "TransmissionSim/B2Voltage",
+			"type" : "complex",
+			"unit" : "V",
+			"info" : "{
+				\"object\" : \"network_node\",
+				\"property\" : \"positive_sequence_voltage\"
+			}"
+		}
+	],
+	"endpoints" : [
+		{
+			"global" : false,
+			"name" : "ep1",
+			"type" : "double",
+			"info" : "{
+				\"object\" : \"Market_1\",
+				\"property\" : \"fixed_price\"
+			}"
+		}
+	]
 }
