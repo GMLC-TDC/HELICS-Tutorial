@@ -5,14 +5,14 @@
 Run in terminal 1
 
 ```bash
-cd /path/to/HELICS-Tutorial/tutorials/Tutorial-1-DistributionFederation-ManualStart/
-helics_broker 2 --loglevel=3 --name=mainbroker
+cd /path/to/HELICS-Tutorial/tutorials/1-DistributionFederation-ManualStart/
+helics_broker -f 2 --loglevel=3 --name=mainbroker
 ```
 
 Run in terminal 2
 
 ```bash
-cd /path/to/HELICS-Tutorial/tutorials/Tutorial-1-DistributionFederation-ManualStart/
+cd /path/to/HELICS-Tutorial/tutorials/1-DistributionFederation-ManualStart/
 python federate1.py
 ```
 

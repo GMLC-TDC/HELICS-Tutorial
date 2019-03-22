@@ -3,6 +3,9 @@ import helics as h
 import random
 import logging
 
+helicsversion = h.helicsGetVersion()
+print("Federate 1: HELICS version = {}".format(helicsversion))
+
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
@@ -17,34 +20,33 @@ def create_broker():
 
     return broker
 
-
 def create_federate(deltat=1.0, fedinitstring="--federates=1"):
 
-    fedinfo = h.helicsFederateInfoCreate()
+    fedinfo = h.helicsCreateFederateInfo()
 
-    status = h.helicsFederateInfoSetFederateName(fedinfo, "Combination Federate")
-    assert status == 0
+    h.helicsFederateInfoSetCoreName(fedinfo, "Combination Federate A")
+    # assert status == 0
 
-    status = h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
-    assert status == 0
+    h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
+    # assert status == 0
 
-    status = h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring)
-    assert status == 0
+    h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring)
+    # assert status == 0
 
-    status = h.helicsFederateInfoSetTimeDelta(fedinfo, deltat)
-    assert status == 0
+    h.helicsFederateInfoSetTimeProperty(fedinfo, h.helics_property_time_delta, deltat)
+    # assert status == 0
 
-    status = h.helicsFederateInfoSetLoggingLevel(fedinfo, 1)
-    assert status == 0
+    # h.helicsFederateInfoSetLoggingLevel(fedinfo, 1)
+    # assert status == 0
 
-    fed = h.helicsCreateCombinationFederate(fedinfo)
+    fed = h.helicsCreateCombinationFederate("Combination Federate A", fedinfo)
 
     return fed
 
-def destroy_federate(fed, broker):
+def destroy_federate(fed, broker=None):
     status = h.helicsFederateFinalize(fed)
 
-    status, state = h.helicsFederateGetState(fed)
+    state = h.helicsFederateGetState(fed)
     assert state == 3
 
     while (h.helicsBrokerIsConnected(broker)):
@@ -54,20 +56,24 @@ def destroy_federate(fed, broker):
 
     h.helicsCloseLibrary()
 
-
 def main():
-
-    # broker = create_broker()
+    # broker = create_broker() # Broker already created from 1st terminal
     fed = create_federate()
-
-    pubid = h.helicsFederateRegisterGlobalTypePublication (fed, "TransmissionSim/B2Voltage", h.HELICS_DATA_TYPE_COMPLEX, "")
-    subid = h.helicsFederateRegisterSubscription (fed, "DistributionSim_B2_G_1/totalLoad", "complex", "")
+    
+    # Register publication
+    pubid = h.helicsFederateRegisterGlobalPublication(fed, "TransmissionSim/B2Voltage", h.helics_data_type_complex, "")
+    
+    # Register subscription
+    subid = h.helicsFederateRegisterSubscription(fed, "DistributionSim_B2_G_1/totalLoad", "")
+    
+    # Register endpoint
     epid = h.helicsFederateRegisterEndpoint(fed, "ep1", None)
-
-    h.helicsSubscriptionSetDefaultComplex(subid, 0, 0)
-
-    h.helicsFederateEnterExecutionMode(fed)
-
+    
+    # h.helicsSubscriptionSetDefaultComplex(subid, 0, 0)
+    
+    # Enter execution mode
+    h.helicsFederateEnterExecutingMode(fed)
+    
     hours = 1
     seconds = int(60 * 60 * hours)
     grantedtime = -1
@@ -78,24 +84,18 @@ def main():
         status = h.helicsPublicationPublishComplex(pubid, c.real, c.imag)
         # status = h.helicsEndpointSendEventRaw(epid, "fixed_price", 10, t)
         while grantedtime < t:
-            status, grantedtime = h.helicsFederateRequestTime (fed, t)
+            grantedtime = h.helicsFederateRequestTime(fed, t)
         time.sleep(1)
-        status, rValue, iValue = h.helicsSubscriptionGetComplex(subid)
+        rValue, iValue = h.helicsInputGetComplex(subid)
         logger.info("Python Federate grantedtime = {}".format(grantedtime))
-        logger.info("Load value = {} MW".format(complex(rValue, iValue)/1000))
-
+        logger.info("Load value = {} MVA".format(complex(rValue, iValue)/1000))
+        
     t = 60 * 60 * 24
     while grantedtime < t:
-        status, grantedtime = h.helicsFederateRequestTime (fed, t)
+        grantedtime = h.helicsFederateRequestTime(fed, t)
     logger.info("Destroying federate")
     destroy_federate(fed)
 
-
 if __name__ == "__main__":
-
     main()
     logger.info("Done!")
-
-
-
-

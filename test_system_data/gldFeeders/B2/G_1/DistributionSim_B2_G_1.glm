@@ -5,8 +5,8 @@
 
 clock {
      timezone MST+7MDT;
-     starttime '2020-08-03 00:00:00';
-     stoptime '2020-08-04 00:00:00';
+     starttime '2018-08-03 00:00:00';
+     stoptime '2018-08-04 00:00:00';
 }
 
 #include "appliance_schedules.glm";
@@ -61,7 +61,6 @@ object auction {
 
 object helics_msg {
     name DistributionSim_B2_G_1;
-    parent Market_1;
     configure DistributionSim_B2_G_1.json;
 }
 
