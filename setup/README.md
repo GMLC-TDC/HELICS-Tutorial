@@ -2,7 +2,7 @@
 
 ### Install HELICS
 
-See install instructions [here](https://gmlc-tdc.github.io/HELICS-src/installation/index.html).
+See install instructions [here](https://helics.readthedocs.io/en/latest/installation/index.html).
 
 ### Install HELICSRunner
 
@@ -47,5 +47,5 @@ Installing FESTIVLite:
     tutorial you will need to make sure you install the HELICS python
     extension.
 -   Install `psst` from [here](https://github.com/kdheepak/psst).
--   Make sure you have the latest version of HELICS built with the Python extension enabled. Please follow the instructions in the [installation page](https://gmlc-tdc.github.io/HELICS-src) for more information.
+-   Make sure you have the latest version of HELICS built with the Python extension enabled. Please follow the instructions in the [installation page](https://helics.readthedocs.io/en/latest/installation/language.html#helics-with-python3) for more information.
 
