@@ -1,4 +1,4 @@
-# # HELICS-Tutorial [![HELICS-Tutorial](https://img.shields.io/badge/helics-tutorial-blue.svg)](http://gmlc-tdc.github.io/HELICS-Tutorial)
+# HELICS-Tutorial [![HELICS-Tutorial](https://img.shields.io/badge/helics-tutorial-blue.svg)](http://gmlc-tdc.github.io/HELICS-Tutorial)
 
 - [HTML](http://gmlc-tdc.github.io/HELICS-Tutorial)
 - [GitHub](http://github.com/HELICS-Tutorial)
