@@ -20,7 +20,7 @@ Installing GridLAB-D with HELICS on Linux and MacOS:
 -   Type `autoreconf -if`
 -   Then run the following
     ```
-    ./configure --prefix=/path/to/gridlabd/install --with-helics=/path/to/helics/install --enable-silent-rules "CFLAGS=-g -O0 -w" "CXXFLAGS=-g -O0 -w -std=c++11" "LDFLAGS=-g -O0 -w"
+    ./configure --prefix=/path/to/gridlabd/install --with-helics=/path/to/helics/install --enable-silent-rules "CFLAGS=-g -O0 -w" "CXXFLAGS=-g -O0 -w -std=c++14" "LDFLAGS=-g -O0 -w"
     ```
 -   For Sierra users it is important that you compile HELICS and
     GridLAB-D and there prereqs with gcc and not clang. There is an
