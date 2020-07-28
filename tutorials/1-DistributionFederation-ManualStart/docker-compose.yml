@@ -1,0 +1,30 @@
+version: '3'
+services:
+  broker:
+    build: ../../Dockerfiles/helics
+    command:
+    - helics_broker
+    - '2'
+    - --loglevel=3
+    - --name=mainbroker
+    image: helics
+  federate:
+    build: ../../Dockerfiles/helics
+    command:
+    - python3
+    - federate1.py
+    image: helics
+    volumes:
+      - ../../:/helics-tutorial
+    working_dir: /helics-tutorial/tutorials/1-DistributionFederation-ManualStart
+  gridlab-d:
+    build: ../../Dockerfiles/gridlab-d
+    command:
+    - gridlabd
+    - DistributionSim_B2_G_1.glm
+    environment:
+    - LD_LIBRARY_PATH=/usr/local/lib
+    image: gridlab-d
+    volumes:
+      - ../../:/helics-tutorial
+    working_dir: /helics-tutorial/test_system_data/gldFeeders/B2/G_1

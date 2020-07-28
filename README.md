@@ -9,6 +9,7 @@ that include Transmission, Distribution, Markets and Communication federates.
 Table of Contents:
 
 - [Setup](./setup/README.md)
+- [Dockerfiles](./Dockerfiles/README.md)
 - [Tutorials](./tutorials/README.md)
 
 ## Release
