@@ -38,7 +38,7 @@ def create_federate(deltat=1.0, fedinitstring="--federates=1"):
 
     return fed
 
-def destroy_federate(fed, broker):
+def destroy_federate(fed, broker=None):
     status = h.helicsFederateFinalize(fed)
 
     status, state = h.helicsFederateGetState(fed)
